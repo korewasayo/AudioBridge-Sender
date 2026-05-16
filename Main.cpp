@@ -62,18 +62,28 @@ public:
 
     void resized() override
     {
-        auto area = getLocalBounds().reduced (16);
-        title.setBounds (area.removeFromTop (24));
+        const int outer = 16;
+        const int titleHeight = 24;
+        const int titleGap = 6;
+        const int sidePanelWidth = 240;
+        const int groupPadding = 12;
+        const int rowHeight = 24;
+        const int rowGap = 8;
+
+        auto area = getLocalBounds().reduced (outer);
+        title.setBounds (area.removeFromTop (titleHeight));
+        area.removeFromTop (titleGap);
 
         auto content = area;
-        auto rightPanel = content.removeFromRight (220);
+        auto rightPanel = content.removeFromRight (sidePanelWidth);
 
         selector.setBounds (content.reduced (4));
 
         inputGroup.setBounds (rightPanel);
-        auto groupArea = rightPanel.reduced (12);
-        channelLabel.setBounds (groupArea.removeFromTop (20));
-        channelBox.setBounds (groupArea.removeFromTop (24));
+        auto groupArea = rightPanel.reduced (groupPadding);
+        channelLabel.setBounds (groupArea.removeFromTop (rowHeight));
+        groupArea.removeFromTop (rowGap);
+        channelBox.setBounds (groupArea.removeFromTop (rowHeight));
     }
 
 private:
@@ -115,18 +125,31 @@ public:
 
     void resized() override
     {
-        auto area = getLocalBounds().reduced (16);
-        title.setBounds (area.removeFromTop (24));
+        const int outer = 16;
+        const int titleHeight = 24;
+        const int titleGap = 6;
+        const int groupHeight = 140;
+        const int groupPadding = 12;
+        const int rowHeight = 24;
+        const int rowGap = 8;
+        const int labelWidth = 90;
+        const int ipWidth = 240;
+        const int portWidth = 120;
 
-        networkGroup.setBounds (area.removeFromTop (130));
-        auto groupArea = networkGroup.getBounds().reduced (12);
-        auto row = groupArea.removeFromTop (28);
-        ipLabel.setBounds (row.removeFromLeft (80));
-        ipEditor.setBounds (row.removeFromLeft (220));
+        auto area = getLocalBounds().reduced (outer);
+        title.setBounds (area.removeFromTop (titleHeight));
+        area.removeFromTop (titleGap);
 
-        row = groupArea.removeFromTop (28).withTrimmedTop (8);
-        portLabel.setBounds (row.removeFromLeft (80));
-        portEditor.setBounds (row.removeFromLeft (120));
+        networkGroup.setBounds (area.removeFromTop (groupHeight));
+        auto groupArea = networkGroup.getBounds().reduced (groupPadding);
+        auto row = groupArea.removeFromTop (rowHeight);
+        ipLabel.setBounds (row.removeFromLeft (labelWidth));
+        ipEditor.setBounds (row.removeFromLeft (ipWidth));
+
+        groupArea.removeFromTop (rowGap);
+        row = groupArea.removeFromTop (rowHeight);
+        portLabel.setBounds (row.removeFromLeft (labelWidth));
+        portEditor.setBounds (row.removeFromLeft (portWidth));
 
         area.removeFromTop (12);
         sendToggle.setBounds (area.removeFromTop (24));
@@ -163,12 +186,20 @@ public:
 
     void resized() override
     {
-        auto area = getLocalBounds().reduced (16);
-        title.setBounds (area.removeFromTop (24));
+        const int outer = 16;
+        const int titleHeight = 24;
+        const int titleGap = 6;
+        const int groupHeight = 120;
+        const int groupPadding = 12;
+        const int rowHeight = 28;
 
-        stateGroup.setBounds (area.removeFromTop (120));
-        auto groupArea = stateGroup.getBounds().reduced (12);
-        statusLabel.setBounds (groupArea.removeFromTop (24));
+        auto area = getLocalBounds().reduced (outer);
+        title.setBounds (area.removeFromTop (titleHeight));
+        area.removeFromTop (titleGap);
+
+        stateGroup.setBounds (area.removeFromTop (groupHeight));
+        auto groupArea = stateGroup.getBounds().reduced (groupPadding);
+        statusLabel.setBounds (groupArea.removeFromTop (rowHeight));
     }
 
 private:
