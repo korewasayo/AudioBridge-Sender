@@ -19,4 +19,3 @@ target_sources(AudioBridge_TX PRIVATE
 target_link_libraries(AudioBridge_TX PRIVATE
     juce::juce_audio_utils
     juce::juce_gui_extra)
-
