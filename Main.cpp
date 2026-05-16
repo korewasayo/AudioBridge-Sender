@@ -21,8 +21,16 @@ public:
         setColour (juce::TextEditor::backgroundColourId, panel);
         setColour (juce::TextEditor::textColourId, text);
         setColour (juce::TextEditor::highlightColourId, accent.withAlpha (0.35f));
+        setColour (juce::TextEditor::outlineColourId, outline);
+        setColour (juce::TextEditor::focusedOutlineColourId, accent);
         setColour (juce::Label::textColourId, text);
         setColour (juce::ToggleButton::textColourId, text);
+        setColour (juce::GroupComponent::outlineColourId, outline);
+        setColour (juce::GroupComponent::textColourId, textMuted);
+        setColour (juce::ComboBox::backgroundColourId, panel);
+        setColour (juce::ComboBox::textColourId, text);
+        setColour (juce::ComboBox::outlineColourId, outline);
+        setColour (juce::ComboBox::arrowColourId, accent);
     }
 };
 
@@ -34,12 +42,14 @@ public:
     {
         title.setText ("DEVICE", juce::dontSendNotification);
         title.setJustificationType (juce::Justification::left);
+        title.setFont (juce::Font (14.0f, juce::Font::bold));
         addAndMakeVisible (title);
 
         inputGroup.setText ("INPUT CONFIG");
         addAndMakeVisible (inputGroup);
 
         channelLabel.setText ("Channel", juce::dontSendNotification);
+        channelLabel.setFont (juce::Font (12.0f));
         addAndMakeVisible (channelLabel);
 
         channelBox.addItem ("Ch 1", 1);
@@ -81,6 +91,7 @@ public:
     {
         title.setText ("NETWORK", juce::dontSendNotification);
         title.setJustificationType (juce::Justification::left);
+        title.setFont (juce::Font (14.0f, juce::Font::bold));
         addAndMakeVisible (title);
 
         networkGroup.setText ("TARGET");
@@ -88,6 +99,8 @@ public:
 
         ipLabel.setText ("Target IP", juce::dontSendNotification);
         portLabel.setText ("Port", juce::dontSendNotification);
+        ipLabel.setFont (juce::Font (12.0f));
+        portLabel.setFont (juce::Font (12.0f));
         addAndMakeVisible (ipLabel);
         addAndMakeVisible (portLabel);
 
@@ -136,6 +149,7 @@ public:
     {
         title.setText ("STATUS", juce::dontSendNotification);
         title.setJustificationType (juce::Justification::left);
+        title.setFont (juce::Font (14.0f, juce::Font::bold));
         addAndMakeVisible (title);
 
         stateGroup.setText ("STATE");
@@ -143,6 +157,7 @@ public:
 
         statusLabel.setText ("Disconnected", juce::dontSendNotification);
         statusLabel.setJustificationType (juce::Justification::left);
+        statusLabel.setFont (juce::Font (16.0f, juce::Font::bold));
         addAndMakeVisible (statusLabel);
     }
 
