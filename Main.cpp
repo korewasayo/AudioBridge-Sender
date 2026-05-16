@@ -138,6 +138,9 @@ public:
         title.setJustificationType (juce::Justification::left);
         addAndMakeVisible (title);
 
+        stateGroup.setText ("STATE");
+        addAndMakeVisible (stateGroup);
+
         statusLabel.setText ("Disconnected", juce::dontSendNotification);
         statusLabel.setJustificationType (juce::Justification::left);
         addAndMakeVisible (statusLabel);
@@ -147,11 +150,15 @@ public:
     {
         auto area = getLocalBounds().reduced (16);
         title.setBounds (area.removeFromTop (24));
-        statusLabel.setBounds (area.removeFromTop (24).withTrimmedTop (8));
+
+        stateGroup.setBounds (area.removeFromTop (120));
+        auto groupArea = stateGroup.getBounds().reduced (12);
+        statusLabel.setBounds (groupArea.removeFromTop (24));
     }
 
 private:
     juce::Label title;
+    juce::GroupComponent stateGroup;
     juce::Label statusLabel;
 };
 
