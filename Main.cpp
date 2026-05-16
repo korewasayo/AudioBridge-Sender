@@ -32,15 +32,45 @@ public:
     DeviceTab (juce::AudioDeviceManager& manager)
         : selector (manager, 1, 2, 0, 0, false, false, true, false)
     {
+        title.setText ("DEVICE", juce::dontSendNotification);
+        title.setJustificationType (juce::Justification::left);
+        addAndMakeVisible (title);
+
+        inputGroup.setText ("INPUT CONFIG");
+        addAndMakeVisible (inputGroup);
+
+        channelLabel.setText ("Channel", juce::dontSendNotification);
+        addAndMakeVisible (channelLabel);
+
+        channelBox.addItem ("Ch 1", 1);
+        channelBox.addItem ("Ch 2", 2);
+        channelBox.setSelectedId (1);
+        addAndMakeVisible (channelBox);
+
         addAndMakeVisible (selector);
     }
 
     void resized() override
     {
-        selector.setBounds (getLocalBounds().reduced (12));
+        auto area = getLocalBounds().reduced (16);
+        title.setBounds (area.removeFromTop (24));
+
+        auto content = area;
+        auto rightPanel = content.removeFromRight (220);
+
+        selector.setBounds (content.reduced (4));
+
+        inputGroup.setBounds (rightPanel);
+        auto groupArea = rightPanel.reduced (12);
+        channelLabel.setBounds (groupArea.removeFromTop (20));
+        channelBox.setBounds (groupArea.removeFromTop (24));
     }
 
 private:
+    juce::Label title;
+    juce::GroupComponent inputGroup;
+    juce::Label channelLabel;
+    juce::ComboBox channelBox;
     juce::AudioDeviceSelectorComponent selector;
 };
 
@@ -52,6 +82,9 @@ public:
         title.setText ("NETWORK", juce::dontSendNotification);
         title.setJustificationType (juce::Justification::left);
         addAndMakeVisible (title);
+
+        networkGroup.setText ("TARGET");
+        addAndMakeVisible (networkGroup);
 
         ipLabel.setText ("Target IP", juce::dontSendNotification);
         portLabel.setText ("Port", juce::dontSendNotification);
@@ -72,11 +105,13 @@ public:
         auto area = getLocalBounds().reduced (16);
         title.setBounds (area.removeFromTop (24));
 
-        auto row = area.removeFromTop (28);
+        networkGroup.setBounds (area.removeFromTop (130));
+        auto groupArea = networkGroup.getBounds().reduced (12);
+        auto row = groupArea.removeFromTop (28);
         ipLabel.setBounds (row.removeFromLeft (80));
         ipEditor.setBounds (row.removeFromLeft (220));
 
-        row = area.removeFromTop (28).withTrimmedTop (8);
+        row = groupArea.removeFromTop (28).withTrimmedTop (8);
         portLabel.setBounds (row.removeFromLeft (80));
         portEditor.setBounds (row.removeFromLeft (120));
 
@@ -86,6 +121,7 @@ public:
 
 private:
     juce::Label title;
+    juce::GroupComponent networkGroup;
     juce::Label ipLabel;
     juce::Label portLabel;
     juce::TextEditor ipEditor;
