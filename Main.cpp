@@ -1,5 +1,31 @@
 #include <JuceHeader.h>
 
+class IndustrialLookAndFeel : public juce::LookAndFeel_V4
+{
+public:
+    IndustrialLookAndFeel()
+    {
+        const auto background = juce::Colour (0xff121416);
+        const auto panel = juce::Colour (0xff1c2025);
+        const auto outline = juce::Colour (0xff343b44);
+        const auto accent = juce::Colour (0xff31c7b8);
+        const auto text = juce::Colour (0xffe6e8eb);
+        const auto textMuted = juce::Colour (0xff9aa3ad);
+
+        setColour (juce::ResizableWindow::backgroundColourId, background);
+        setColour (juce::TabbedButtonBar::tabOutlineColourId, outline);
+        setColour (juce::TabbedButtonBar::frontOutlineColourId, accent);
+        setColour (juce::TabbedButtonBar::tabTextColourId, textMuted);
+        setColour (juce::TabbedButtonBar::frontTextColourId, text);
+        setColour (juce::TabbedComponent::backgroundColourId, panel);
+        setColour (juce::TextEditor::backgroundColourId, panel);
+        setColour (juce::TextEditor::textColourId, text);
+        setColour (juce::TextEditor::highlightColourId, accent.withAlpha (0.35f));
+        setColour (juce::Label::textColourId, text);
+        setColour (juce::ToggleButton::textColourId, text);
+    }
+};
+
 class DeviceTab : public juce::Component
 {
 public:
@@ -99,14 +125,28 @@ public:
     MainComponent()
         : tabs (juce::TabbedButtonBar::TabsAtTop)
     {
+        juce::LookAndFeel::setDefaultLookAndFeel (&lookAndFeel);
+        setLookAndFeel (&lookAndFeel);
         deviceManager.initialise (2, 0, nullptr, true);
 
         tabs.addTab ("Device", juce::Colours::black, new DeviceTab (deviceManager), true);
         tabs.addTab ("Network", juce::Colours::black, new NetworkTab(), true);
         tabs.addTab ("Status", juce::Colours::black, new StatusTab(), true);
 
+        tabs.setTabBarDepth (32);
         addAndMakeVisible (tabs);
         setSize (720, 420);
+    }
+
+    ~MainComponent() override
+    {
+        setLookAndFeel (nullptr);
+        juce::LookAndFeel::setDefaultLookAndFeel (nullptr);
+    }
+
+    void paint (juce::Graphics& g) override
+    {
+        g.fillAll (findColour (juce::ResizableWindow::backgroundColourId));
     }
 
     void resized() override
@@ -115,6 +155,7 @@ public:
     }
 
 private:
+    IndustrialLookAndFeel lookAndFeel;
     juce::AudioDeviceManager deviceManager;
     juce::TabbedComponent tabs;
 };
@@ -155,7 +196,7 @@ public:
             
             setContentOwned (new MainComponent(), true);
             
-            centreWithSize (400, 300); // Window size
+            centreWithSize (720, 420); // Window size
             setVisible (true);
         }
 
